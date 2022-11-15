@@ -20,6 +20,7 @@ test('SwagLabs login locked out user', async ({page}) => {
 
     const errorButton = page.locator('.error-button');
     await errorButton.click();
+
 });
 
 
@@ -46,7 +47,7 @@ test('SwagLabs standard user using ModelObject',async ({page}) => {
     await pageObject.backToProducts();
 
     await pageObject.logOut();
-}); 
+});
 
 
 test('SwagLabs login standard user', async ({page}) => {
@@ -87,10 +88,20 @@ test('SwagLabs login standard user', async ({page}) => {
     const dropdownFilter = page.locator('.product_sort_container');
     await dropdownFilter.click();
 
+    //Kako da se proveri koliko options-a ima u select-u i u meniju koliko ima opcija
+    //Kako da se proveri koja je slika postavljena
+
+    //const optionIwant = page.getByText('Price (low to high)');    ???
+    //await optionIwant.click();
+
+
+
     const pictureOfProducts = page.locator('.inventory_item_img');
+    //await expect((await pictureOfProducts.count()).toString()).toEqual(6);
 
     const sauceLabs = page.locator('#item_0_img_link');
     await sauceLabs.click();
+    //await expect(page).toHaveURL(/.*inventory-item.html?id=0/);
 
     const detailsSauceLabs = page.locator('.inventory_details_desc');
     await expect(detailsSauceLabs).toHaveText("A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.")
@@ -99,6 +110,7 @@ test('SwagLabs login standard user', async ({page}) => {
 
     await expect(page.locator('#add-to-cart-sauce-labs-bike-light')).toContainText('Add' &&'cart');
 
+    //const backButton = await page.getByRole('button', {name: 'back-to-products'});
     const backButton = page.locator('#back-to-products');
     await backButton.click();
 
