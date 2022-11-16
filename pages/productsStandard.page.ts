@@ -17,7 +17,9 @@ export class productsStandard
     readonly removeTshirt: Locator;
     readonly cart: Locator;
     readonly menuButton: Locator;
+    readonly closeMenuButton: Locator;
     readonly menu: Locator;
+    readonly menuItems: Locator;
     readonly filter: Locator;
 
     constructor(page: Page) 
@@ -27,16 +29,18 @@ export class productsStandard
         this.addBikeLight = page.locator('#add-to-cart-sauce-labs-bike-light');
         this.addBoltTshirt = page.locator('#add-to-cart-sauce-labs-bolt-t-shirt');
         this.addOnesie = page.locator('#add-to-cart-sauce-labs-onesie');
-            this.addTshirt = page.locator('id=add-to-cart-test.allthethings()-t-shirt-(red)');
+        this.addTshirt = page.locator('id=add-to-cart-test.allthethings()-t-shirt-(red)');
         this.removeJacket = page.locator('#remove-sauce-labs-fleece-jacket');
         this.removeBackpack = page.locator('#remove-sauce-labs-backpack');
         this.removeBikeLight= page.locator('#remove-sauce-labs-bike-light');
         this.removeBoltTshirt = page.locator('#remove-sauce-labs-bolt-t-shirt');
         this.removeOnesie = page.locator('#remove-sauce-labs-onesie');
-        this.removeTshirt = page.locator('#remove-test.allthethings()-t-shirt-(red)');
+        this.removeTshirt = page.locator('id=remove-test.allthethings()-t-shirt-(red)');
         this.cart = page.locator('#shopping_cart_container');
         this.menuButton = page.locator('#react-burger-menu-btn');
+        this.closeMenuButton = page.locator('#react-burger-cross-btn');
         this.menu = page.locator('.bm-menu-wrap');
+        this.menuItems = page.locator('.bm-item .menu-item');
         this.filter = page.locator('.product_sort_container');
     }
 
@@ -93,4 +97,28 @@ export class productsStandard
     {
         await this.removeTshirt.click();
     }
+
+    async openCart()
+    {
+        await this.cart.click();
+    }
+
+    async openMenu()
+    {
+        await this.menuButton.click();
+    }
+    async closeMenu()
+    {
+        await this.closeMenuButton.click();
+    }
+
+    async openFilter()
+    {
+        await this.filter.click();
+    }
+    async closeFilter()
+    {
+        await this.filter.click();
+    }
+
 }
