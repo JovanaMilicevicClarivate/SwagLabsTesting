@@ -54,10 +54,8 @@ export class checkoutPage
                     return this.errorMessage.innerText(); //textContent()
                 }
             case this.inputSurname:
-
-                
-
         }*/
+
     }
     async cancelCheckout()
     {

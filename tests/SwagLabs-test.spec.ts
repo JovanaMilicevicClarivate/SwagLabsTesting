@@ -6,18 +6,6 @@ import {checkoutPage} from '../pages/checkout.page';
 import {checkoutOverview} from '../pages/checkoutOverview.page';
 import {checkoutComplete} from '../pages/checkoutComplete.page';
 
-/*test.describe("navigation", () => {
-    test.beforeEach(async ({page}) => {
-        // Go to the starting url before each test.
-        await page.goto("https://www.saucedemo.com/");
-    });
-
-    test("main navigation", async ({ page }) => {
-        // Assertions use the expect API.
-        await expect(page).toHaveURL("https://www.saucedemo.com/");
-      });
-});*/
-
 test('SwagLabs standard user using ModelObject',async ({page}) => {
     const login = new loginPage(page);
     const products = new productsStandard(page);
@@ -86,13 +74,17 @@ test('SwagLabs standard user using ModelObject',async ({page}) => {
 
     //checkout page
     
-    //await expect(checkout.inputName).toHaveText('Test');
-    //await checkout.continueCheckout();
-    //await expect(checkout.error).toHaveText('Error: Last Name is required');
-    /*await checkout.errorBlock();
-    console.log(checkout.error);*/
+    await checkout.continueCheckout();
+    await expect(checkout.error).toHaveText('Error: First Name is required');
+    await expect(checkout.errorMessage).toBeVisible();
     await checkout.inputFirstName();
+    await checkout.continueCheckout();
+    await expect(checkout.error).toHaveText('Error: Last Name is required');
+    await expect(checkout.errorMessage).toBeVisible();
     await checkout.inputLastName();
+    await checkout.continueCheckout();
+    await expect(checkout.error).toHaveText('Error: Postal Code is required');
+    await expect(checkout.errorMessage).toBeVisible();
     await checkout.inputCode();
     await checkout.continueCheckout();
     //-----
@@ -111,11 +103,6 @@ test('SwagLabs standard user using ModelObject',async ({page}) => {
     await expect(completes.image).toBeVisible();
     await completes.backToMain();
     await expect(page).toHaveURL(/.*inventory/);
-    
-    //await expect(overview.itemTotal).toContainText('45.98');
-    //console.log( await overview.itemTotal.textContent());
-    //await overview.sum();
-    //await expect (overview.sum()).toEqual(overview.total);
 
     //main page - reseting app state from menu
     await products.openMenu();
