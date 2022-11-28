@@ -1,101 +1,32 @@
 import { expect, Locator, Page} from '@playwright/test';
 
-export class productsStandard
+export class ProductsStandard
 {
     readonly page: Page;
-    readonly addJacket: Locator;
-    readonly addBackpack: Locator;
-    readonly addBikeLight: Locator;
-    readonly addBoltTshirt: Locator;
-    readonly addOnesie: Locator;
-    readonly addTshirt: Locator;
-    readonly removeJacket: Locator;
-    readonly removeBackpack: Locator;
-    readonly removeBikeLight: Locator;
-    readonly removeBoltTshirt: Locator;
-    readonly removeOnesie: Locator;
-    readonly removeTshirt: Locator;
     readonly cart: Locator;
-    readonly menuButton: Locator;
-    readonly closeMenuButton: Locator;
-    readonly menu: Locator;
-    readonly menuItems: Locator;
     readonly filter: Locator;
-
+    readonly listOfProducts: Locator
+    
     constructor(page: Page) 
     {
-        this.addJacket = page.locator('#add-to-cart-sauce-labs-fleece-jacket');
-        this.addBackpack = page.locator('#add-to-cart-sauce-labs-backpack');
-        this.addBikeLight = page.locator('#add-to-cart-sauce-labs-bike-light');
-        this.addBoltTshirt = page.locator('#add-to-cart-sauce-labs-bolt-t-shirt');
-        this.addOnesie = page.locator('#add-to-cart-sauce-labs-onesie');
-        this.addTshirt = page.locator('id=add-to-cart-test.allthethings()-t-shirt-(red)');
-        this.removeJacket = page.locator('#remove-sauce-labs-fleece-jacket');
-        this.removeBackpack = page.locator('#remove-sauce-labs-backpack');
-        this.removeBikeLight= page.locator('#remove-sauce-labs-bike-light');
-        this.removeBoltTshirt = page.locator('#remove-sauce-labs-bolt-t-shirt');
-        this.removeOnesie = page.locator('#remove-sauce-labs-onesie');
-        this.removeTshirt = page.locator('id=remove-test.allthethings()-t-shirt-(red)');
+        this.listOfProducts = page.locator(`.inventory_list`);
         this.cart = page.locator('#shopping_cart_container');
-        this.menuButton = page.locator('#react-burger-menu-btn');
-        this.closeMenuButton = page.locator('#react-burger-cross-btn');
-        this.menu = page.locator('.bm-menu-wrap');
-        this.menuItems = page.locator('.bm-item .menu-item');
         this.filter = page.locator('.product_sort_container');
     }
 
-    async addFleeceJacket()
+//.inventory_list>.inventory_item:nth-child(${broj})>div>div:nth-child(2)>div
+   //uf idk
+    async priceOfTheItems()
     {
-        await this.addJacket.click();
-    }
-    async removeFleeceJacket()
-    {
-        await this.removeJacket.click();
-    }
-
-    async addLabsBackpack()
-    {
-        await this.addBackpack.click();
-    }
-    async removeLabsBackpack()
-    {
-        await this.removeBackpack.click();
-    }
-
-    async addLabsBikeLight()
-    {
-        await this.addBikeLight.click();
-    }
-    async removeLabsBikeLight()
-    {
-        await this.removeBikeLight.click();
-    }
-
-    async addLabsBoltTshirt()
-    {
-        await this.addBoltTshirt.click();
-    }
-    async removeLabsBoltTshirt()
-    {
-        await this.removeBoltTshirt.click();
-    }
-
-    async addLabsOnesie()
-    {
-        await this.addOnesie.click();
-    }
-    async removeLabsOnesie()
-    {
-        await this.removeOnesie.click();
-    }
-
-    async addRedTshirt()
-    {
-        await this.addTshirt.click();
-    }
-    async removeRedTshirt()
-    {
-        await this.removeTshirt.click();
+        let array = new Array();
+        for(let broj=1; broj<7; broj++)
+        {
+            let priceOfAProduct = await this.listOfProducts.locator(`.inventory_item:nth-child(${broj})>div>div:nth-child(2)>div`);
+            //array = await priceOfAProduct.textContent();
+            
+            //console.log(array);
+        }
+        console.log(array);
     }
 
     async openCart()
@@ -103,14 +34,6 @@ export class productsStandard
         await this.cart.click();
     }
 
-    async openMenu()
-    {
-        await this.menuButton.click();
-    }
-    async closeMenu()
-    {
-        await this.closeMenuButton.click();
-    }
 
     async openFilter()
     {
@@ -121,4 +44,50 @@ export class productsStandard
         await this.filter.click();
     }
 
+    async addProduct(productName:string)
+    {
+        
+        for(let broj=1;broj<7;broj++)
+        {
+            let cardOfAProduct = await this.listOfProducts.locator(`.inventory_item:nth-child(${broj})`);
+            const btn = await cardOfAProduct.locator('div>div>button');
+
+            if(await (btn.innerText()) == 'ADD TO CART')
+            {
+                if((await cardOfAProduct.innerText()).toString().includes(productName))
+                {
+                    await btn.click();
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else{ break;}
+        }
+    }
+
+    async removeProduct(productName:string)
+    { 
+        for(let broj=1;broj<7;broj++)
+        {
+            let cardOfAProduct = await this.listOfProducts.locator(`.inventory_item:nth-child(${broj})`);
+            const btn = await cardOfAProduct.locator('div>div>button');
+            if(await btn.innerText() == 'REMOVE')
+            {
+                if((await cardOfAProduct.innerText()).toString().includes(productName))
+                {
+                    await btn.click();
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else{ break;}
+        }
+    }
 }
+    

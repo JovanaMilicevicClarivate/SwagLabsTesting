@@ -1,8 +1,9 @@
 import { expect, Locator, Page} from '@playwright/test';
 
-export class checkoutOverview
+export class CheckoutOverview
 {
     readonly page: Page;
+    readonly listOfBoughtItems: Locator;
     readonly cancelButton: Locator;
     readonly finishButton: Locator;
     readonly shippingInfo: Locator;
@@ -20,6 +21,7 @@ export class checkoutOverview
         this.tax = page.locator('.summary_info>.summary_tax_label');
         this.total = page.locator('.summary_info>.summary_total_label');
         this.pokusaj =  page.locator('.summary_info>.summary_subtotal_label');
+        this.listOfBoughtItems = page.locator('.cart_item');
     }
 
     async cancelCheckout()

@@ -1,6 +1,6 @@
 import { expect, Locator, Page} from '@playwright/test';
 
-export class checkoutPage
+export class CheckoutPage
 {
     readonly page: Page;
     readonly inputName: Locator;
@@ -35,7 +35,7 @@ export class checkoutPage
     {
         await this.inputSurname.fill('Agent');
     }
-    async inputCode()
+    async inputPostalCode()
     {
         await this.inputZipCode.fill('12000');
     }

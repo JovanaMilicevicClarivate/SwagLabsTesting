@@ -1,15 +1,13 @@
 import { expect, Locator, Page} from '@playwright/test';
 
-export class checkoutComplete
+export class CheckoutComplete
 {
     readonly page: Page;
     readonly backButton: Locator;
-    readonly image: Locator;
 
     constructor(page: Page) 
     {
         this.backButton = page.locator('#back-to-products');
-        this.image = page.locator('.pony_express');
     }
 
     async backToMain()

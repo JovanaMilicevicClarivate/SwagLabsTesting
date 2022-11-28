@@ -1,67 +1,47 @@
 import { expect, Locator, Page} from '@playwright/test';
 
-export class cartStandard
+export class CartStandard
 {
     readonly page: Page;
-    readonly continueShoppingBtn: Locator;
+    readonly backtoShoppingBtn: Locator;
     readonly checkOutBtn: Locator;
-    readonly removeJacket: Locator;
-    readonly removeBackpack: Locator;
-    readonly removeBikeLight: Locator;
-    readonly removeBoltTshirt: Locator;
-    readonly removeOnesie: Locator;
-    readonly removeTshirt: Locator;
-
+    readonly price: Locator;
+    readonly itemInCart: Locator;
+    readonly allItems: Locator;
     constructor(page: Page) 
     {
-        this.continueShoppingBtn = page.locator('#continue-shopping');
+        this.backtoShoppingBtn = page.locator('#continue-shopping');
         this.checkOutBtn = page.locator('#checkout');
-        this.removeJacket = page.locator('#remove-sauce-labs-fleece-jacket');
-        this.removeBackpack = page.locator('#remove-sauce-labs-backpack');
-        this.removeBikeLight= page.locator('#remove-sauce-labs-bike-light');
-        this.removeBoltTshirt = page.locator('#remove-sauce-labs-bolt-t-shirt');
-        this.removeOnesie = page.locator('#remove-sauce-labs-onesie');
-        this.removeTshirt = page.locator('id=remove-test.allthethings()-t-shirt-(red)');
+        this.itemInCart = page.locator('.cart_list');
+        this.allItems = this.itemInCart.locator('.cart_item');
     }
 
-    async contunueShipping()
+    async removeItemFromTheCart(itemName)
     {
-        await this.continueShoppingBtn.click();
+        for (let broj=3; broj<await this.allItems.count(); broj++)
+        {
+            const itemIamLookingFor = this.itemInCart.locator(`.cart_item:nth-child(${broj})`);
+            const btn = itemIamLookingFor.locator('div>div:nth-child(3)>button');
+            if((await itemIamLookingFor.innerText()).toString().includes(itemName))
+            {
+                await btn.click();
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
+
+    async backtoShopping()
+    {
+        await this.backtoShoppingBtn.click();
     }
 
     async checkOut()
     {
         await this.checkOutBtn.click();
-    }
-
-    async removeFleeceJacket()
-    {
-        await this.removeJacket.click();
-    }
-
-    async removeLabsBackpack()
-    {
-        await this.removeBackpack.click();
-    }
-
-    async removeLabsBikeLight()
-    {
-        await this.removeBikeLight.click();
-    }
-
-    async removeLabsBoltTshirt()
-    {
-        await this.removeBoltTshirt.click();
-    }
-
-    async removeLabsOnesie()
-    {
-        await this.removeOnesie.click();
-    }
-    
-    async removeRedTshirt()
-    {
-        await this.removeTshirt.click();
     }
 
 }

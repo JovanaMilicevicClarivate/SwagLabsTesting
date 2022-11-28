@@ -1,6 +1,6 @@
 import { expect, Locator, Page} from '@playwright/test';
 
-export class loginPage{
+export class LoginPage{
     readonly page: Page;
     readonly inputUsername: Locator;
     readonly inputPassword: Locator;
@@ -13,35 +13,15 @@ export class loginPage{
         this.loginBtn = page.locator('#login-button');
     }
 
-    async goto() {
+    async goToLoginPage() {
         await this.page.goto('https://www.saucedemo.com/');
     }
 
-    async loginStandardUser()
+    async loginUsers(username:string, password)
     {
-        await this.inputUsername.fill('standard_user');
-        await this.inputPassword.fill('secret_sauce');
+        await this.inputUsername.fill(username);
+        await this.inputPassword.fill(password);
         await this.loginBtn.click();
     }
 
-    async loginLockedOutUser()
-    {
-        await this.inputUsername.fill('locked_out_user');
-        await this.inputPassword.fill('secret_sauce');
-        await this.loginBtn.click();
-    }
-
-    async loginProblemUser()
-    {
-        await this.inputUsername.fill('problem_user');
-        await this.inputPassword.fill('secret_sauce');
-        await this.loginBtn.click();
-    }
-
-    async loginGlichUser()
-    {
-        await this.inputUsername.fill('performance_glitch_user');
-        await this.inputPassword.fill('secret_sauce');
-        await this.loginBtn.click();
-    }
 }
